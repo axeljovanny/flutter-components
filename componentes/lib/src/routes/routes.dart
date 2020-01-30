@@ -1,3 +1,5 @@
+import 'package:componentes/src/pages/listview_page.dart';
+import 'package:componentes/src/pages/slider_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:componentes/src/pages/animated_container.dart';
@@ -15,5 +17,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'card': (BuildContext context) => CardsPage(),
     'inputs': (BuildContext context) => InputPage(),
     'animatedContainer': (BuildContext context) => AnimatedContainerPage(),
+    'slider': (BuildContext context) => SliderPage(),
+    'list': (BuildContext context) => ListaPage(),
   };
 }
