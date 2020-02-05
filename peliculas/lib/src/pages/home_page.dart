@@ -7,8 +7,10 @@ import 'package:peliculas/src/widgets/movie_horizontal.dart';
 class HomePage extends StatelessWidget {
   final peliculasProvider = new PeliculasProvider();
 
-  @override
+  @override 
   Widget build(BuildContext context) {
+
+    peliculasProvider.getPopulares();
     return Scaffold(
       appBar: AppBar(
         title: Text('Peliculas en Cines'),
@@ -20,10 +22,13 @@ class HomePage extends StatelessWidget {
       body: Container(
         child: ListView(
           children: <Widget>[
-            SizedBox(height: 40.0,),
-            _swiperTarjetas(), 
+            SizedBox(
+              height: 40.0,
+            ),
+            _swiperTarjetas(),
             SizedBox(height: 30.0),
-            _footer(context)],
+            _footer(context)
+          ],
         ),
       ),
     );
@@ -49,15 +54,17 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 20.0),
-            child: Text('Populares', style: Theme.of(context).textTheme.subhead)),
-          SizedBox(height:5.0 ),
-          FutureBuilder(
-            future: peliculasProvider.getPopulares(),
+              padding: EdgeInsets.only(left: 20.0),
+              child: Text('Populares',
+                  style: Theme.of(context).textTheme.subhead)),
+          SizedBox(height: 5.0),
+          StreamBuilder(
+            stream: peliculasProvider.popularesStream,
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
               if (snapshot.hasData) {
                 return MovieHorizontal(
                   peliculas: snapshot.data,
+                  siguientePagina: peliculasProvider.getPopulares,
                 );
               } else {
                 return Center(child: CircularProgressIndicator());
