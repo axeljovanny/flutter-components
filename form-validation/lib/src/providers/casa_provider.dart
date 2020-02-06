@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../models/casa_model.dart';
-import '../models/casa_model.dart';
-import '../models/casa_model.dart';
 
 class CasaProvider {
   final String _url = "https://flutter-varios-bc255.firebaseio.com";
@@ -41,5 +39,12 @@ class CasaProvider {
     print(json.decode(resp.body));
 
     return 1;
+  }
+  Future<bool> editarCasa(CasaModel casa) async {
+    final url = '$_url/casas/${casa.id}.json';
+    final resp = await http.put(url, body: casaModelToJson(casa));
+    final decodedData = json.decode(resp.body);
+    print(decodedData);
+    return true;
   }
 }

@@ -47,7 +47,7 @@ class CasaModel {
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
+        //"id": id,
         "tipo": tipo,
         "cuartos": cuartos,
         "baños": baos,

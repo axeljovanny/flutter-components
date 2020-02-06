@@ -6,7 +6,6 @@ import 'package:formvalidation/src/utils/utils.dart' as utils;
 
 import '../models/casa_model.dart';
 
-
 class CasaPage extends StatefulWidget {
   @override
   _CasaPageState createState() => _CasaPageState();
@@ -44,6 +43,10 @@ class _CasaPageState extends State<CasaPage> {
 
   @override
   Widget build(BuildContext context) {
+    final CasaModel casaData = ModalRoute.of(context).settings.arguments;
+    if (casaData != null) {
+      casa = casaData;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Rentas'),
@@ -132,7 +135,11 @@ class _CasaPageState extends State<CasaPage> {
     print(casa.renta);
     print(casa.disponible);
 
-    casaProvider.crearCasa(casa);
+    if (casa.id == null) {
+      casaProvider.crearCasa(casa);
+    } else {
+      casaProvider.editarCasa(casa);
+    }
   }
 
   Widget _crearTipo() {

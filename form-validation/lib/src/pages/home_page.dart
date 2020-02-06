@@ -3,7 +3,6 @@ import 'package:formvalidation/src/bloc/provider.dart';
 import 'package:formvalidation/src/providers/casa_provider.dart';
 
 import '../models/casa_model.dart';
-import '../models/casa_model.dart';
 
 class HomePage extends StatelessWidget {
   final casasProvider = new CasaProvider();
@@ -60,7 +59,7 @@ class HomePage extends StatelessWidget {
       child: ListTile(
         title: Text('${casa.colonia} - ${casa.renta}'),
         subtitle: Text(casa.id),
-        onTap: () => Navigator.pushNamed(context, 'casa'),
+        onTap: () => Navigator.pushNamed(context, 'casa', arguments: casa),
       ),
     );
   }
