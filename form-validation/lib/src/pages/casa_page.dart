@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:formvalidation/src/providers/casa_provider.dart';
 
 import 'package:formvalidation/src/utils/utils.dart' as utils;
+import 'package:image_picker/image_picker.dart';
 
 import '../models/casa_model.dart';
 
@@ -18,7 +21,55 @@ class _CasaPageState extends State<CasaPage> {
 
   var _value = "1";
   CasaModel casa = new CasaModel();
-  bool _guardando =false;
+  bool _guardando = false;
+  File foto;
+
+  @override
+  Widget build(BuildContext context) {
+    final CasaModel casaData = ModalRoute.of(context).settings.arguments;
+    if (casaData != null) {
+      casa = casaData;
+    }
+    return Scaffold(
+      key: scaffoldKey,
+      appBar: AppBar(
+        title: Text('Rentas'),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.photo_size_select_actual),
+              onPressed: _seleccionarFoto),
+          IconButton(icon: Icon(Icons.camera_alt), onPressed: _tomarFoto),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(15.0),
+          child: Form(
+              key: formKey,
+              child: Column(
+                children: <Widget>[
+                  _mostrarFoto(),
+                  _crearTipo(),
+                  _crearColonia(),
+                  _crearCuartos(),
+                  _crearBanos(),
+                  _crearMetros(),
+                  _crearDescipcion(),
+                  _crearRenta(),
+                  _crearDisponible(),
+                  _crearBoton()
+                ],
+              )),
+        ),
+      ),
+    );
+  }
+
+  Widget _crearTipo() {
+    return Container(
+      child: _casasDown(),
+    );
+  }
 
   DropdownButton _casasDown() => DropdownButton<String>(
         items: [
@@ -42,45 +93,6 @@ class _CasaPageState extends State<CasaPage> {
         },
         value: _value,
       );
-
-  @override
-  Widget build(BuildContext context) {
-    final CasaModel casaData = ModalRoute.of(context).settings.arguments;
-    if (casaData != null) {
-      casa = casaData;
-    }
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-        title: Text('Rentas'),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.photo_size_select_actual), onPressed: () {}),
-          IconButton(icon: Icon(Icons.camera_alt), onPressed: () {}),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(15.0),
-          child: Form(
-              key: formKey,
-              child: Column(
-                children: <Widget>[
-                  _crearTipo(),
-                  _crearColonia(),
-                  _crearCuartos(),
-                  _crearBanos(),
-                  _crearMetros(),
-                  _crearDescipcion(),
-                  _crearRenta(),
-                  _crearDisponible(),
-                  _crearBoton()
-                ],
-              )),
-        ),
-      ),
-    );
-  }
 
   Widget _crearRenta() {
     return TextFormField(
@@ -121,31 +133,7 @@ class _CasaPageState extends State<CasaPage> {
       label: Text('Gurdar'),
       icon: Icon(Icons.save),
       textColor: Colors.white,
-      onPressed: (_guardando)? null: _submit,
-    );
-  }
-
-  void _submit() {
-    if (!formKey.currentState.validate()) return;
-
-    formKey.currentState.save();
-
-    if (casa.id == null) {
-      casaProvider.crearCasa(casa);
-    } else {
-      casaProvider.editarCasa(casa);
-    }
-
-    // setState(() {
-    // _guardando =true;
-    // });
-    mostrarSnackbar('Registro Guardado');
-    Navigator.pop(context);
-  }
-
-  Widget _crearTipo() {
-    return Container(
-      child: _casasDown(),
+      onPressed: (_guardando) ? null : _submit,
     );
   }
 
@@ -230,4 +218,48 @@ class _CasaPageState extends State<CasaPage> {
     );
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
+
+  void _submit() {
+    if (!formKey.currentState.validate()) return;
+
+    formKey.currentState.save();
+
+    if (casa.id == null) {
+      casaProvider.crearCasa(casa);
+    } else {
+      casaProvider.editarCasa(casa);
+    }
+
+    // setState(() {
+    // _guardando =true;
+    // });
+    mostrarSnackbar('Registro Guardado');
+    Navigator.pop(context);
+  }
+
+  Widget _mostrarFoto() {
+    if (casa.foto != null) {
+      return Container();
+    } else {
+      return Image(
+        image: AssetImage(foto?.path ??
+            'assets/no-image.png'), //tiene path? si no mostrar asset
+        height: 300.0,
+        fit: BoxFit.cover,
+      );
+    }
+  }
+
+  _seleccionarFoto() async {
+    foto = await ImagePicker.pickImage(
+      source: ImageSource.gallery);
+    if (foto != null) {
+      //limpieza
+
+    }
+
+    setState(() {});
+  }
+
+  _tomarFoto() {}
 }

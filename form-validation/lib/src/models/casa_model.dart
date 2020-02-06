@@ -18,7 +18,7 @@ class CasaModel {
     String colonia;
     double renta;
     bool disponible;
-    //List<String> fotos;
+    String foto;
 
     CasaModel({
         this.id,
@@ -30,7 +30,7 @@ class CasaModel {
         this.colonia ="",
         this.renta = 0.0,
         this.disponible =true,
-        //this.fotos,
+        this.foto,
     });
 
     factory CasaModel.fromJson(Map<String, dynamic> json) => CasaModel(
@@ -43,7 +43,7 @@ class CasaModel {
         colonia: json["colonia"],
         renta: json["renta"],
         disponible: json["disponible"],
-        //fotos: List<String>.from(json["fotos"].map((x) => x)),
+        foto: json["foto"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -56,6 +56,6 @@ class CasaModel {
         "colonia": colonia,
         "renta": renta,
         "disponible": disponible,
-        //"fotos": List<dynamic>.from(fotos.map((x) => x)),
+        "foto": foto,
     };
 }
