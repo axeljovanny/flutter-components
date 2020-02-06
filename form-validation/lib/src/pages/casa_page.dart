@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:formvalidation/src/providers/casa_provider.dart';
 
 import 'package:formvalidation/src/utils/utils.dart' as utils;
 
 import '../models/casa_model.dart';
-import '../models/casa_model.dart';
-import '../models/casa_model.dart';
+
 
 class CasaPage extends StatefulWidget {
   @override
@@ -14,6 +14,8 @@ class CasaPage extends StatefulWidget {
 
 class _CasaPageState extends State<CasaPage> {
   final formKey = GlobalKey<FormState>();
+  final casaProvider = new CasaProvider();
+
   var _value = "1";
   CasaModel casa = new CasaModel();
 
@@ -129,6 +131,8 @@ class _CasaPageState extends State<CasaPage> {
     print(casa.descripcion);
     print(casa.renta);
     print(casa.disponible);
+
+    casaProvider.crearCasa(casa);
   }
 
   Widget _crearTipo() {
