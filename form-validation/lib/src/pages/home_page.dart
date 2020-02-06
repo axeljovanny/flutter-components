@@ -3,6 +3,7 @@ import 'package:formvalidation/src/bloc/provider.dart';
 import 'package:formvalidation/src/providers/casa_provider.dart';
 
 import '../models/casa_model.dart';
+import '../models/casa_model.dart';
 
 class HomePage extends StatelessWidget {
   final casasProvider = new CasaProvider();
@@ -31,13 +32,36 @@ class HomePage extends StatelessWidget {
       future: casasProvider.cargarCasas(),
       builder: (BuildContext context, AsyncSnapshot<List<CasaModel>> snapshot) {
         if (snapshot.hasData) {
-          return Container();
+          // Listado de Casas/Cuartos
+          final casas = snapshot.data;
+          return ListView.builder(
+            itemCount: casas.length,
+            itemBuilder: (context, i) => _crearItem(context, casas[i]),
+          );
         } else {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
       },
+    );
+  }
+
+  Widget _crearItem(BuildContext context, CasaModel casa) {
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(
+        color: Colors.redAccent,
+      ),
+      onDismissed: (direction) {
+        // Borrar producto
+        casasProvider.borrarCasa(casa.id);
+      },
+      child: ListTile(
+        title: Text('${casa.colonia} - ${casa.renta}'),
+        subtitle: Text(casa.id),
+        onTap: () => Navigator.pushNamed(context, 'casa'),
+      ),
     );
   }
 }

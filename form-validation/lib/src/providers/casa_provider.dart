@@ -34,4 +34,12 @@ class CasaProvider {
     print(casas);
     return casas;
   }
+
+  Future<int> borrarCasa(String id) async {
+    final url = '$_url/casas/$id.json';
+    final resp = await http.delete(url);
+    print(json.decode(resp.body));
+
+    return 1;
+  }
 }
