@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:formvalidation/src/utils/utils.dart' as utils;
+
+import '../models/casa_model.dart';
+import '../models/casa_model.dart';
+import '../models/casa_model.dart';
 
 class CasaPage extends StatefulWidget {
   @override
@@ -8,6 +14,31 @@ class CasaPage extends StatefulWidget {
 
 class _CasaPageState extends State<CasaPage> {
   final formKey = GlobalKey<FormState>();
+  var _value = "1";
+  CasaModel casa = new CasaModel();
+
+  DropdownButton _casasDown() => DropdownButton<String>(
+        items: [
+          DropdownMenuItem<String>(
+            value: "1",
+            child: Text(
+              "Casa",
+            ),
+          ),
+          DropdownMenuItem<String>(
+            value: "2",
+            child: Text(
+              "Cuarto",
+            ),
+          ),
+        ],
+        onChanged: (value) {
+          setState(() {
+            _value = value;
+          });
+        },
+        value: _value,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +76,10 @@ class _CasaPageState extends State<CasaPage> {
 
   Widget _crearRenta() {
     return TextFormField(
-      keyboardType: TextInputType.number,
+      initialValue: casa.renta.toString(),
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(labelText: 'Precio'),
+      onSaved: (value) => casa.renta = double.parse(value),
       validator: (value) {
         if (utils.isNumeric(value)) {
           return null;
@@ -61,6 +94,8 @@ class _CasaPageState extends State<CasaPage> {
     return TextFormField(
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(labelText: 'Colonia'),
+      initialValue: casa.colonia,
+      onSaved: (value) => casa.colonia = value,
       validator: (value) {
         if (value.length < 3) {
           return 'Ingrese el nombre del producto';
@@ -84,28 +119,78 @@ class _CasaPageState extends State<CasaPage> {
 
   void _submit() {
     if (!formKey.currentState.validate()) return;
+
+    formKey.currentState.save();
+    print(casa.tipo);
+    print(casa.colonia);
+    print(casa.cuartos);
+    print(casa.baos);
+    print(casa.metros);
+    print(casa.descripcion);
+    print(casa.renta);
+    print(casa.disponible);
   }
 
   Widget _crearTipo() {
-    return null;
+    return Container(
+      child: _casasDown(),
+    );
   }
 
   Widget _crearCuartos() {
-    return null;
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(labelText: 'Nº de Cuartos'),
+      initialValue: casa.cuartos.toString(),
+      onSaved: (value) => casa.cuartos = int.parse(value),
+      validator: (value) {
+        if (utils.isNumeric(value)) {
+          return null;
+        } else {
+          return 'Solo Numeros';
+        }
+      },
+    );
   }
 
   Widget _crearBanos() {
-    return null;
+    return TextFormField(
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      decoration: InputDecoration(labelText: 'Nº de Baños'),
+      initialValue: casa.baos.toString(),
+      onSaved: (value) => casa.baos = double.parse(value),
+      validator: (value) {
+        if (utils.isNumeric(value)) {
+          return null;
+        } else {
+          return 'Solo Numeros';
+        }
+      },
+    );
   }
 
   Widget _crearMetros() {
-    return null;
+    return TextFormField(
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      decoration: InputDecoration(labelText: 'Metros cuadrados'),
+      initialValue: casa.metros.toString(),
+      onSaved: (value) => casa.metros = double.parse(value),
+      validator: (value) {
+        if (utils.isNumeric(value)) {
+          return null;
+        } else {
+          return 'Solo Numeros';
+        }
+      },
+    );
   }
 
   Widget _crearDescipcion() {
     return TextFormField(
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(labelText: 'Descripción'),
+      initialValue: casa.descripcion,
+      onSaved: (value) => casa.descripcion = value,
       validator: (value) {
         if (value.length < 3) {
           return 'Ingrese el nombre del producto';
@@ -117,6 +202,12 @@ class _CasaPageState extends State<CasaPage> {
   }
 
   Widget _crearDisponible() {
-    return null;
+    return SwitchListTile(
+        value: casa.disponible,
+        title: Text('Disponible'),
+        activeColor: Colors.deepPurple,
+        onChanged: (value) => setState(() {
+              casa.disponible = value;
+            }));
   }
 }

@@ -22,7 +22,7 @@ class CasaModel {
 
     CasaModel({
         this.id,
-        this.tipo,
+        this.tipo = 1,
         this.cuartos = 0,
         this.baos = 0.0,
         this.metros = 0.0,
