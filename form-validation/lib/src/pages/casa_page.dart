@@ -251,6 +251,14 @@ class _CasaPageState extends State<CasaPage> {
   }
 
   _seleccionarFoto() async {
+    _procesarImagen(ImageSource.gallery);
+  }
+
+  _tomarFoto() async{
+    _procesarImagen(ImageSource.camera);
+  }
+
+  _procesarImagen(ImageSource origen) async{
     foto = await ImagePicker.pickImage(
       source: ImageSource.gallery);
     if (foto != null) {
@@ -260,6 +268,4 @@ class _CasaPageState extends State<CasaPage> {
 
     setState(() {});
   }
-
-  _tomarFoto() {}
 }
