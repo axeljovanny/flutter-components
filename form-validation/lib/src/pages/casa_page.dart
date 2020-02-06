@@ -13,10 +13,12 @@ class CasaPage extends StatefulWidget {
 
 class _CasaPageState extends State<CasaPage> {
   final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final casaProvider = new CasaProvider();
 
   var _value = "1";
   CasaModel casa = new CasaModel();
+  bool _guardando =false;
 
   DropdownButton _casasDown() => DropdownButton<String>(
         items: [
@@ -48,6 +50,7 @@ class _CasaPageState extends State<CasaPage> {
       casa = casaData;
     }
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text('Rentas'),
         actions: <Widget>[
@@ -118,7 +121,7 @@ class _CasaPageState extends State<CasaPage> {
       label: Text('Gurdar'),
       icon: Icon(Icons.save),
       textColor: Colors.white,
-      onPressed: _submit,
+      onPressed: (_guardando)? null: _submit,
     );
   }
 
@@ -126,20 +129,18 @@ class _CasaPageState extends State<CasaPage> {
     if (!formKey.currentState.validate()) return;
 
     formKey.currentState.save();
-    print(casa.tipo);
-    print(casa.colonia);
-    print(casa.cuartos);
-    print(casa.baos);
-    print(casa.metros);
-    print(casa.descripcion);
-    print(casa.renta);
-    print(casa.disponible);
 
     if (casa.id == null) {
       casaProvider.crearCasa(casa);
     } else {
       casaProvider.editarCasa(casa);
     }
+
+    // setState(() {
+    // _guardando =true;
+    // });
+    mostrarSnackbar('Registro Guardado');
+    Navigator.pop(context);
   }
 
   Widget _crearTipo() {
@@ -220,5 +221,13 @@ class _CasaPageState extends State<CasaPage> {
         onChanged: (value) => setState(() {
               casa.disponible = value;
             }));
+  }
+
+  void mostrarSnackbar(String mensaje) {
+    final snackbar = SnackBar(
+      content: Text(mensaje),
+      duration: Duration(milliseconds: 1500),
+    );
+    scaffoldKey.currentState.showSnackBar(snackbar);
   }
 }
