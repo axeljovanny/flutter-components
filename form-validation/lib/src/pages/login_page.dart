@@ -169,13 +169,13 @@ class LoginPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     final fondoModaro = Container(
-      height: size.height * 0.4,
+      height: size.height * 0.5,
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: <Color> [
-            Color.fromRGBO(63, 63, 156, 1.0),
-            Color.fromRGBO(90, 70, 178, 1.0)
+            Color.fromRGBO(222, 97, 97, 1.0),
+            Color.fromRGBO(38, 87, 235, 0.8)
           ]
         )
       ),
@@ -204,9 +204,9 @@ class LoginPage extends StatelessWidget {
           padding: EdgeInsets.only(top: 80.0),
           child: Column(
             children: <Widget>[
-              Icon( Icons.person_pin_circle, color: Colors.white, size: 100.0 ),
+              Icon( Icons.home, color: Colors.white, size: 100.0 ),
               SizedBox( height: 10.0, width: double.infinity ),
-              Text('Fernando Herrera', style: TextStyle( color: Colors.white, fontSize: 25.0 ))
+              Text('Catre', style: TextStyle( color: Colors.white, fontSize: 25.0 ))
             ],
           ),
         )

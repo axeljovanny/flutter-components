@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:formvalidation/src/bloc/provider.dart';
+import 'package:formvalidation/src/pages/casa_page.dart';
 
 import 'package:formvalidation/src/pages/home_page.dart';
 import 'package:formvalidation/src/pages/login_page.dart';
@@ -15,10 +16,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material App',
-        initialRoute: 'login',
+        initialRoute: 'home',
         routes: {
           'login' : ( BuildContext context ) => LoginPage(),
           'home'  : ( BuildContext context ) => HomePage(),
+          'casa'  : ( BuildContext context ) => CasaPage(),
         },
         theme: ThemeData(
           primaryColor: Colors.deepPurple,
