@@ -27,7 +27,7 @@ class _CasaPageState extends State<CasaPage> {
               key: formKey,
               child: Column(
                 children: <Widget>[
-                  _crearTipo()
+                  _crearTipo(),
                   _crearColonia(),
                   _crearCuartos(),
                   _crearBanos(),
@@ -43,7 +43,7 @@ class _CasaPageState extends State<CasaPage> {
     );
   }
 
-  Widget _crearPrecio() {
+  Widget _crearRenta() {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(labelText: 'Precio'),
@@ -57,10 +57,10 @@ class _CasaPageState extends State<CasaPage> {
     );
   }
 
-  Widget _crearNombre() {
+  Widget _crearColonia() {
     return TextFormField(
       textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(labelText: 'Casas'),
+      decoration: InputDecoration(labelText: 'Colonia'),
       validator: (value) {
         if (value.length < 3) {
           return 'Ingrese el nombre del producto';
@@ -73,19 +73,50 @@ class _CasaPageState extends State<CasaPage> {
 
   Widget _crearBoton() {
     return RaisedButton.icon(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-        color: Colors.deepPurple,
-        label: Text('Gurdar'),
-        icon: Icon(Icons.save),
-        textColor: Colors.white,
-        onPressed: _submit,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      color: Colors.deepPurple,
+      label: Text('Gurdar'),
+      icon: Icon(Icons.save),
+      textColor: Colors.white,
+      onPressed: _submit,
     );
   }
 
   void _submit() {
-    if(!formKey.currentState.validate()) return ;
+    if (!formKey.currentState.validate()) return;
+  }
 
+  Widget _crearTipo() {
+    return null;
+  }
 
+  Widget _crearCuartos() {
+    return null;
+  }
+
+  Widget _crearBanos() {
+    return null;
+  }
+
+  Widget _crearMetros() {
+    return null;
+  }
+
+  Widget _crearDescipcion() {
+    return TextFormField(
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(labelText: 'Descripción'),
+      validator: (value) {
+        if (value.length < 3) {
+          return 'Ingrese el nombre del producto';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget _crearDisponible() {
+    return null;
   }
 }
