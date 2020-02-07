@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:formvalidation/src/bloc/provider.dart';
+//import 'package:formvalidation/src/bloc/provider.dart';
 import 'package:formvalidation/src/providers/casa_provider.dart';
 
 import '../models/casa_model.dart';
@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of(context);
+    //final bloc = Provider.of(context);
 
     return Scaffold(
       appBar: AppBar(title: Text('Home')),
@@ -56,10 +56,30 @@ class HomePage extends StatelessWidget {
         // Borrar producto
         casasProvider.borrarCasa(casa.id);
       },
-      child: ListTile(
-        title: Text('${casa.colonia} - ${casa.renta}'),
-        subtitle: Text(casa.id),
-        onTap: () => Navigator.pushNamed(context, 'casa', arguments: casa),
+      child: Card(
+        child: Column(
+          children: <Widget>[
+            (casa.foto == null)
+                ? Image(image: AssetImage('assets/no-image.png'))
+                : FadeInImage(
+                    placeholder: AssetImage('assets/jar-loading.gif'),
+                    height: 300.0,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    image: NetworkImage(casa.foto)),
+            ListTile(
+              title: Text('${casa.colonia} - ${casa.renta} /mensuales'),
+              subtitle: Row(
+                children: <Widget>[
+                  Text('Nª Cuartos: ${casa.cuartos.toString()}   '),
+                  Text('Nª Baños: ${casa.baos.toString()}  ')
+                ],
+              ),
+              onTap: () =>
+                  Navigator.pushNamed(context, 'casa', arguments: casa),
+            ),
+          ],
+        ),
       ),
     );
   }

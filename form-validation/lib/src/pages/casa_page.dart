@@ -219,10 +219,15 @@ class _CasaPageState extends State<CasaPage> {
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
 
-  void _submit() {
+  void _submit() async{
     if (!formKey.currentState.validate()) return;
 
     formKey.currentState.save();
+    setState(() {_guardando=true;});
+
+    if (foto != null){
+      casa.foto= await casaProvider.subirImagen(foto);
+    }
 
     if (casa.id == null) {
       casaProvider.crearCasa(casa);
@@ -239,7 +244,11 @@ class _CasaPageState extends State<CasaPage> {
 
   Widget _mostrarFoto() {
     if (casa.foto != null) {
-      return Container();
+      return FadeInImage(image: NetworkImage(casa.foto),
+      placeholder: AssetImage('assets/jar-loading.git'),
+      height: 300.0,
+      fit: BoxFit.contain,
+      );
     } else {
       return Image(
         image: AssetImage(foto?.path ??
@@ -260,10 +269,9 @@ class _CasaPageState extends State<CasaPage> {
 
   _procesarImagen(ImageSource origen) async{
     foto = await ImagePicker.pickImage(
-      source: ImageSource.gallery);
+      source: origen);
     if (foto != null) {
-      //limpieza
-
+      casa.foto =null;
     }
 
     setState(() {});
